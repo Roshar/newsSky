@@ -8,12 +8,13 @@
     <title>Document</title>
 </head>
 <body>
-<?php foreach ($this->articles as $item):?>
-<article>
-    <h3><a href="?ctrl=Article&id=<?=$item->id;?>"><?= $item->title;?></a></h3>
-    <p><?=$item->content;?></p>
-</article>
-<hr>
-<?php endforeach;?>
+
+    <article>
+        <h3><?=$this->article->title;?></h3>
+        <span><?=$this->article->newsdate;?></span>
+        <p><?=$this->article->content;?></p>
+    </article>
+
+
 </body>
 </html>

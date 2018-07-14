@@ -13,10 +13,10 @@ class Db
         $this->dbh = new \PDO('mysql:host='.$config->host.';dbname='.$config->dbname,$config->user,$config->password);
     }
 
-    public function query($sql,$class)
+    public function query($sql,$data=[],$class)
     {
         $sth = $this->dbh->prepare($sql);
-        $sth->execute();
+        $sth->execute($data);
         $data = $sth->fetchAll(\PDO::FETCH_CLASS,$class);
         return $data;
     }

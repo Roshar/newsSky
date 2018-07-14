@@ -2,10 +2,9 @@
 
 require __DIR__.'/autoload.php';
 
-$view = new \App\View();
-
-$view->articles = App\Models\Article::findAll();
-
-$view->display(__DIR__.'/templete/index.php');
+$ctrl = $_GET['ctrl'] ?? 'Index';
+$class = 'App\Controllers\\'.$ctrl;
+$ctrl = new $class;
+$ctrl();
 
 
