@@ -4,32 +4,57 @@ namespace App;
 
 class Db
 {
-    protected $dbh;
+    private static $dbh;
+    private static $instanse;
 
-    public function __construct()
+
+    static function callDB()
     {
-
         $config = Config::getSingle();
-        $this->dbh = new \PDO('mysql:host='.$config->host.';dbname='.$config->dbname,$config->user,$config->password);
+        return self::$dbh = new \PDO('mysql:host='.$config->host.';dbname='.$config->dbname,$config->user,$config->password);
     }
 
-    public function query($sql,$data=[],$class)
+    static public function query($sql,$data=[],$class)
     {
-        $sth = $this->dbh->prepare($sql);
+        self::callDB();
+        $sth = self::$dbh->prepare($sql);
         $sth->execute($data);
         $data = $sth->fetchAll(\PDO::FETCH_CLASS,$class);
         return $data;
     }
-
-    public function execute($sql,$data=[])
+    static public function queryUsers($sql,$data=[])
     {
-        $sth = $this->dbh->prepare($sql);
+        self::callDB();
+        $sth = self::$dbh->prepare($sql);
+        $sth->execute($data);
+        $data = $sth->fetch();
+        return $data;
+    }
+
+    static public function execute($sql,$data=[])
+    {
+        self::callDB();
+        $sth =  self::$dbh->prepare($sql);
         return $sth->execute($data);
     }
 
-    function getLastId()
+    public static function getLastId()
     {
-        return $this->dbh->lastInsertId();
+        self::callDB();
+        return  self::$dbh->lastInsertId();
     }
 
+
+
+    public function getInstance()
+    {
+        if (self::$instanse == null){
+            self::$instanse == new Db();
+            return self::$instanse;
+        }else
+        return self::$instanse;
+    }
+    private function __construct(){}
+    private function __clone(){}
+    private function __wakeup(){}
 }

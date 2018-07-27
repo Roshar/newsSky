@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\site;
 
 
 
@@ -13,7 +13,7 @@ class Index extends Controller
 
         $this->view->articles = \App\Models\Article::findAll();
 
-        $this->view->display(__DIR__.'/../../templete/index.php');
+        $this->view->display(__DIR__ . '/../../../templete/site/index.php');
     }
 
 }

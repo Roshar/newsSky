@@ -10,14 +10,12 @@ abstract class Model
 
     public static function findAll()
     {
-        $db = new Db();
-        return $db->query('SELECT * FROM '.static::TABLE,[], static::class);
+        return Db::query('SELECT * FROM '.static::TABLE,[], static::class);
     }
     public static function findById($id)
     {
-        $db = new Db();
         $sql = 'SELECT * FROM '.static::TABLE.' WHERE id =:id';
-        $data = $db->query($sql,[':id'=>$id],static::class);
+        $data = Db::query($sql,[':id'=>$id],static::class);
         return $data ? $data[0]: null;
     }
     public function insert()
@@ -35,9 +33,10 @@ abstract class Model
         }
 
        $sql = 'INSERT INTO '.static::TABLE. '('.implode(',',$cols).') VALUES ('.implode(',',array_keys($data)).')';
-       $db = new Db();
-       $this->id = $db->getLastId();
-       $db->execute($sql,$data);
-
+       $this->id = Db::getLastId();
+       Db::execute($sql,$data);
+       return RssRecord::InOutRecords();
     }
+
+
 }
